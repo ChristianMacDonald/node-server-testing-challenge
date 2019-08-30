@@ -36,8 +36,8 @@ router.put('/:id', validateFruitId, async (req, res) => {
 
 router.delete('/:id', validateFruitId, async (req, res) => {
     try {
-        let fruit = await fruitModel.remove(req.params.id);
-        res.status(200).json(fruit);
+        await fruitModel.remove(req.params.id);
+        res.status(200).json(req.fruit);
     } catch (err) {
         res.status(500).json({ error: 'There was an error removing the fruit from the database.' });
     }
@@ -48,6 +48,7 @@ async function validateFruitId(req, res, next) {
         let fruit = await fruitModel.get(req.params.id);
         if (fruit) {
             req.fruit = fruit;
+            next();
         } else {
             res.status(404).json({ message: 'The fruit with the specified ID does not exist.' });
         }

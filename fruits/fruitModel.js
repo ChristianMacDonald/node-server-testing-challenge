@@ -19,9 +19,7 @@ async function update(id, changes) {
 }
 
 async function remove(id) {
-    let fruit = get(id);
-    await db('fruits').where({ id }).del();
-    return fruit;
+    return db('fruits').where({ id }).del();
 }
 
 module.exports = {
